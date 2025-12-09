@@ -1,5 +1,5 @@
 import {Blog} from "../types/blog";
-import {BlogInputDto} from "../application/dto/blog.input-dto";
+import {BlogInputDto} from "../application/dtos/blog.input-dto";
 import {blogCollection} from "../../db/mongo.bd";
 import {ObjectId, WithId} from "mongodb";
 import {BlogQueryInput} from "../routers/input/blog-query.input";

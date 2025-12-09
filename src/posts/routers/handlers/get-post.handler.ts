@@ -3,7 +3,7 @@ import {HttpStatus} from "../../../core/types/http-statuses";
 import {createErrorMessages} from "../../../core/utils/error.utils";
 import {postsRepository} from "../../repositories/posts.repository";
 import {isValidId} from "../../validation/postInputDtoValidation";
-import {Post} from "../../types/post";
+import {Post} from "../../domain/post";
 import {WithId} from "mongodb";
 import {mapToPostViewModelUtil} from "../mappers/map-to-post-view-model.utils";
 import {PostViewModel} from "../../types/post-view-model";

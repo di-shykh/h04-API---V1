@@ -2,7 +2,7 @@ import {validationResult, ValidationError, FieldValidationError} from "express-v
 import {Request, Response, NextFunction} from "express";
 import {HttpStatus} from "../../types/http-statuses";
 import {ValidationErrorType} from "../../types/validationError";
-// import {ValidationErrorDto} from "../../types/validationError.dto";
+// import {ValidationErrorDto} from "../../types/validationError.dtos";
 import {ValidationErrorListOutput} from "../../types/validationError.dto";
 //
 // export const createErrorMessages = (errors: ValidationErrorType[]): ValidationError => {

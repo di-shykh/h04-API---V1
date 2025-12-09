@@ -1,4 +1,4 @@
-import {BlogInputDto} from "../application/dto/blog.input-dto";
+import {BlogInputDto} from "../application/dtos/blog.input-dto";
 import {ValidationError} from "../../core/utils/validationError";
 
 const URL_PATTERN = /^https:\/\/([a-zA-Z0-9_-]+\.)+[a-zA-Z0-9_-]+(\/[a-zA-Z0-9_-]+)*\/?$/;

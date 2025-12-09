@@ -1,4 +1,4 @@
-import {PostInputDto} from "../dto/post.input-dto";
+import {PostInputDto} from "../application/dtos/post.input-dto";
 import {ValidationError} from "../../core/utils/validationError";
 import {blogsRepository} from "../../blogs/repositories/blogs.repository";
 

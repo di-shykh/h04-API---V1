@@ -1,6 +1,6 @@
 import request from 'supertest';
 import { Express } from 'express';
-import { PostInputDto } from '../../../src/posts/dto/post.input-dto';
+import { PostInputDto } from '../../../src/posts/application/dtos/post.input-dto';
 import { HttpStatus } from '../../../src/core/types/http-statuses';
 import { getPostDto } from './get-post-dto';
 import { POSTS_PATH } from '../../../src/core/paths/paths';

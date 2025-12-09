@@ -1,4 +1,4 @@
-import {BlogInputDto} from "../../../src/blogs/application/dto/blog.input-dto";
+import {BlogInputDto} from "../../../src/blogs/application/dtos/blog.input-dto";
 
 export function getBlogDto(): BlogInputDto {
     return {
