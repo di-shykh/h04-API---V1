@@ -1,5 +1,5 @@
 import request from "supertest";
-import {PostInputDto} from "../../../src/posts/dto/post.input-dto";
+import {PostInputDto} from "../../../src/posts/application/dtos/post.input-dto";
 import {Express} from "express";
 import {HttpStatus} from "../../../src/core/types/http-statuses";
 import {generateBasicAuthToken} from "../generate-admin-auth-token";

@@ -1,5 +1,5 @@
 import {ResourceType} from "../../../core/types/resource-type";
-import {BlogAttributes} from "../../application/dto/blog-attributes";
+import {BlogAttributes} from "../../application/dtos/blog-attributes";
 
 export type BlogUpdateInput = {
     data: {

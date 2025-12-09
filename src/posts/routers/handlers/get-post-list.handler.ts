@@ -1,7 +1,7 @@
 import {Request, Response} from "express";
 import {HttpStatus} from "../../../core/types/http-statuses";
 import {postsRepository} from "../../repositories/posts.repository";
-import {Post} from "../../types/post";
+import {Post} from "../../domain/post";
 import {WithId} from "mongodb";
 import {mapToPostViewModelUtil} from "../mappers/map-to-post-view-model.utils";
 

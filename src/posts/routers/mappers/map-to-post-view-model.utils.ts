@@ -1,5 +1,5 @@
 import {WithId} from "mongodb";
-import {Post} from "../../types/post";
+import {Post} from "../../domain/post";
 import {PostViewModel} from "../../types/post-view-model";
 
 export function mapToPostViewModelUtil(post: WithId<Post>): PostViewModel {

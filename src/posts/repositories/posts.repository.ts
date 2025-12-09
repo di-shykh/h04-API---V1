@@ -1,5 +1,5 @@
-import {Post} from "../types/post";
-import {PostInputDto} from "../dto/post.input-dto";
+import {Post} from "../domain/post";
+import {PostInputDto} from "../application/dtos/post.input-dto";
 import {postCollection} from "../../db/mongo.bd";
 import {blogCollection} from "../../db/mongo.bd";
 import {ObjectId, WithId} from "mongodb";

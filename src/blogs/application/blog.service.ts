@@ -2,9 +2,9 @@ import {blogsRepository} from "../repositories/blogs.repository";
 import {ObjectId, WithId} from "mongodb";
 import {Blog} from "../types/blog";
 import {postsRepository} from "../../posts/repositories/posts.repository";
-import {BlogAttributes} from "./dto/blog-attributes";
+import {BlogAttributes} from "./dtos/blog-attributes";
 import {BlogQueryInput} from "../routers/input/blog-query.input";
-import {Post} from "../../posts/types/post";
+import {Post} from "../../posts/domain/post";
 
 export const blogsService = {
     async findMany(
