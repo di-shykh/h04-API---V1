@@ -6,7 +6,7 @@ export type BlogDataOutput = {
     attributes: {
         name: string;
         description: string;
-        website: string;
+        websiteUrl: string;
         created_at: string;
         isMembership: boolean;
     }
