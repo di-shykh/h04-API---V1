@@ -1,16 +1,31 @@
 import {Request, Response} from "express";
 import {HttpStatus} from "../../../core/types/http-statuses";
-import {blogsRepository} from "../../repositories/blogs.repository";
-import {mapToBlogViewModel} from "../mappers/map-to-blog-view-model.util";
-import {WithId} from "mongodb";
-import {Blog} from "../../types/blog";
+import {mapToBlogListPaginatedOutput} from "../mappers/map-to-blog-list-paginated-output";
+import {blogsService} from "../../application/blog.service";
+import {errorHandler} from "../../../core/errors/error.handler";
+import {BlogQueryInput} from "../input/blog-query.input";
+import {setDefaultSortAndPaginationIfNotExist} from "../../../core/helpers/set-default-sort-and-pagination";
+import {matchedData} from "express-validator";
 
-export async function getBlogListHandler(req: Request, res: Response) {
+export async function getBlogListHandler(
+    req: Request<{},{},{},BlogQueryInput>,
+    res: Response
+) {
     try {
-        const blogs: WithId<Blog>[] = await blogsRepository.findAllBlogs();
-        const blogViewModels = blogs.map(mapToBlogViewModel);
-        res.status(HttpStatus.Ok).send(blogViewModels);
+        const sanitizedQuery = matchedData<BlogQueryInput>(req, {
+            locations: ['query'],
+            includeOptionals: true,
+        });//утилита для извечения трансформированных значений после валидатара
+        //в req.query остаются сырые квери параметры (строки)
+        const queryInput = setDefaultSortAndPaginationIfNotExist(sanitizedQuery);
+        const {items, totalCount} = await blogsService.findMany(queryInput);
+        const blogsListOutput = mapToBlogListPaginatedOutput(items, {
+            pageNumber:queryInput.pageNumber,
+            pageSize:queryInput.pageSize,
+            totalCount,
+        })
+        res.status(HttpStatus.Ok).send(blogsListOutput);
     } catch (error: unknown) {
-        res.status(HttpStatus.InternalServerError);
+       errorHandler(error, res);
     }
 }

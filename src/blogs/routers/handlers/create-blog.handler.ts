@@ -1,31 +1,23 @@
 
 import {Request, Response} from "express";
-import {BlogInputDto} from "../../application/dto/blog.input-dto";
 import {HttpStatus} from "../../../core/types/http-statuses";
-import {createErrorMessages} from "../../../core/utils/error.utils";
-import {blogInputDtoValidation} from "../../validation/blogInputDtoValidation";
-import {Blog} from "../../types/blog";
-import {blogsRepository} from "../../repositories/blogs.repository";
-import {mapToBlogViewModel} from "../mappers/map-to-blog-view-model.util";
+import {mapToBlogOutput} from "../mappers/map-to-blog-output.util";
+import {blogsService} from "../../application/blog.service";
+import {errorHandler} from "../../../core/errors/error.handler";
+import {BlogCreateInput} from "../input/blog-create.input";
 
-export async function createBlogHandler(req: Request<{},{},BlogInputDto>, res: Response) {
+
+export async function createBlogHandler(
+    req: Request<{},{},BlogCreateInput>,
+    res: Response
+) {
     try{
-        const errors = blogInputDtoValidation(req.body);
-        if (errors.length > 0) {
-            res.status(HttpStatus.BadRequest).send(createErrorMessages(errors));
-            return;
-        }
-        const newBlog: Blog = {
-            name: req.body.name,
-            description: req.body.description,
-            websiteUrl: req.body.websiteUrl,
-            createdAt: new Date().toISOString(),
-            isMembership: false,
-        };
-        const createdBlog = await blogsRepository.createBlog(newBlog);
-        const blogViewModel = mapToBlogViewModel(createdBlog);
-        res.status(HttpStatus.Created).send(blogViewModel);
+        const createdBlogId = await blogsService.create(req.body.data.attributes);
+        const createdBlog = await blogsService.findBlogByIdOrFail(createdBlogId);
+        const blogOutput = mapToBlogOutput(createdBlog);
+        res.status(HttpStatus.Created).send(blogOutput);
+
     } catch(err: unknown){
-        res.sendStatus(HttpStatus.InternalServerError);
+        errorHandler(err, res);
     }
 }
