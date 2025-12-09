@@ -8,10 +8,11 @@ import {setDefaultSortAndPaginationIfNotExist} from "../../../core/helpers/set-d
 import {matchedData} from "express-validator";
 
 export async function getBlogListHandler(
-    req: Request<{},{},{},BlogQueryInput>,
+    req: Request,
     res: Response
 ) {
     try {
+        const query = req.query as unknown as BlogQueryInput;
         const sanitizedQuery = matchedData<BlogQueryInput>(req, {
             locations: ['query'],
             includeOptionals: true,
