@@ -7,7 +7,7 @@ import {PostAttributes} from "./dtos/post-attributs";
 import {PostQueryInput} from "../routers/input/post-query.input";
 import {RepositoryNotFoundError} from "../../core/errors/repository-not-found.error";
 
-export const postServices = {
+export const postsService = {
     async findManyPosts(queryDto: PostQueryInput): Promise<{items: WithId<Post>[], totalCount: number}> {
         return await postsRepository.findManyPosts(queryDto);
     },

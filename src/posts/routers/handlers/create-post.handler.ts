@@ -10,32 +10,14 @@ import {postsRepository} from "../../repositories/posts.repository";
 import {WithId} from "mongodb";
 import {mapToPostViewModelUtil} from "../mappers/map-to-post-view-model.utils";
 import {PostViewModel} from "../../types/post-view-model";
+import {PostCreateInput} from "../input/post-create.input";
+import {postsService} from "../../application/post.services";
 
-export async function createPostHandler(req: Request<{},{},PostInputDto>, res: Response) {
+export async function createPostHandler(req: Request<{},{},PostCreateInput>, res: Response) {
    try{
-       const errors = postInputDtoValidation(req.body);
-       if (errors.length > 0) {
-           res.status(HttpStatus.BadRequest).send(createErrorMessages(errors));
-           return;
-       }
-
-       const blog: WithId<Blog> | null = await blogsRepository.findBlogById(req.body.blogId);
-       if (!blog) {
-           res.status(HttpStatus.BadRequest).send(createErrorMessages([{field: "blogId", message: "Blog not found"}]));
-           return;
-       }
-
-       const newPost: Post = {
-           title: req.body.title,
-           shortDescription: req.body.shortDescription,
-           content: req.body.content,
-           blogId: req.body.blogId,
-           blogName: blog.name,
-           createdAt: new Date().toISOString(),
-       };
-       const createdPost: WithId<Post> = await postsRepository.createPost(newPost);
-       const postViewModel: PostViewModel = mapToPostViewModelUtil(createdPost);
-       res.status(HttpStatus.Created).send(postViewModel)
+      const createdPost = await postsService.createPost(req.body.data.attributes);
+      const insertedPost = await postsService.findPostByIdOrFail(createdPost);
+      const
    } catch (e: unknown) {
        res.status(HttpStatus.InternalServerError);
    }
