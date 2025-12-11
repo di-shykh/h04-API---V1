@@ -61,6 +61,7 @@ export const blogsRepository = {
         const items = await blogCollection
             .find(filter)
             .sort({[sortBy]: sortDirection})
+            .skip(skip)
             .limit(pageSize)
             .toArray();
         const totalCount = await blogCollection.countDocuments(filter);

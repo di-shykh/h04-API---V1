@@ -31,8 +31,8 @@ export const blogsService = {
     },
     async delete(id: string): Promise<void> {
         const postsWithBlogId = await postsRepository.findPostsByBlogId(id);
-        if(postsWithBlogId && postsWithBlogId.length > 0){
-            await Promise.all(postsWithBlogId.map( (post: WithId<Post>) => {
+        if(postsWithBlogId && postsWithBlogId.totalCount > 0){
+            await Promise.all(postsWithBlogId.items.map( (post: WithId<Post>) => {
                 postsRepository.deletePost(post._id.toString())
             }))
         }
@@ -40,11 +40,3 @@ export const blogsService = {
         return;
     }
 }
-// export type Blog = {
-//     name: string;
-//     description: string;
-//     websiteUrl: string;
-//
-//     createdAt: string;
-//     isMembership: boolean;
-// }
