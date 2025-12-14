@@ -1,27 +1,14 @@
 import {Request, Response} from "express";
 import {HttpStatus} from "../../../core/types/http-statuses";
-import {createErrorMessages} from "../../../core/utils/error.utils";
-import {postsRepository} from "../../repositories/posts.repository";
-import {isValidId} from "../../validation/postInputDtoValidation";
-import {Post} from "../../domain/post";
-import {WithId} from "mongodb";
+import {postsService} from "../../application/post.services";
+import {errorHandler} from "../../../core/errors/error.handler";
 
-export async function deletePostHandler(req: Request, res: Response) {
+export async function deletePostHandler(req: Request<{id: string}>, res: Response) {
     try {
         const id = req.params.id;
-        if(!id || !isValidId(id)){
-            res.status(HttpStatus.NotFound).send(createErrorMessages([{field: "id", message: "Invalid id"}]));
-            return;
-        }
-        const post: WithId<Post> | null = await postsRepository.findPostById(id);
-        if(!post){
-            res.status(HttpStatus.NotFound).send(createErrorMessages([{field: "id", message: "Post not found"}]));
-            return;
-        }
-        await postsRepository.deletePost(id);
+        await postsService.deletePost(id);
         res.sendStatus(HttpStatus.NoContent);
     }catch (e: unknown) {
-        res.sendStatus(HttpStatus.InternalServerError);
+        errorHandler(e, res);
     }
-
 }
