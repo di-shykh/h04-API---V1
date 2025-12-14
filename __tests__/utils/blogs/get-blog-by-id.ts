@@ -5,11 +5,12 @@ import { BLOGS_PATH } from '../../../src/core/paths/paths';
 import { generateBasicAuthToken } from '../generate-admin-auth-token';
 import { BlogViewModel } from '../../../src/blogs/types/blog-view-model';
 import {Blog} from "../../../src/blogs/types/blog";
+import {BlogOutput} from "../../../src/blogs/routers/output/blog.output";
 
 export async function getBlogById(
     app: Express,
     blogId: string,
-): Promise<BlogViewModel> {
+): Promise<BlogOutput> {
     const blogResponse = await request(app)
         .get(`${BLOGS_PATH}/${blogId}`)
         .set('Authorization', generateBasicAuthToken())
