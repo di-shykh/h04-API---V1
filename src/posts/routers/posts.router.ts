@@ -6,14 +6,43 @@ import {updatePostHandler} from "./handlers/update-post.handler";
 import {deletePostHandler} from "./handlers/delete-post.handler";
 import {idValidator} from "../../core/middlewares/validation/params-id.validation-middleware";
 import {inputValidationResultMiddleware} from "../../core/middlewares/validation/input-validation.result.middleware";
-import {postInputDtoValidation} from "../validation/post.input-dto.validation-middlewares";
+import {
+    postCreateInputValidation,
+    postUpdateInputValidation
+} from "./post.input-dto.validation-middlewares";
 import {superAdminMiddleware} from "../../auth/middlewares/super-admin.guard-middleware";
+import {paginationAndSortingValidation} from "../../core/middlewares/validation/query-pagination-sorting.validation";
+import {PostSortField} from "./input/post-sort-field";
 
 export const postsRouter: Router = Router({});
 
 postsRouter
-    .get("", getPostListHandler)
-    .get("/:id",  idValidator, inputValidationResultMiddleware, getPostHandler)
-    .post("", superAdminMiddleware, postInputDtoValidation, inputValidationResultMiddleware, createPostHandler)
-    .put("/:id", superAdminMiddleware, idValidator, postInputDtoValidation, inputValidationResultMiddleware, updatePostHandler)
-    .delete("/:id", superAdminMiddleware, idValidator, inputValidationResultMiddleware, deletePostHandler);
+    .get(
+        "",
+        paginationAndSortingValidation(PostSortField),
+        inputValidationResultMiddleware,
+        getPostListHandler)
+    .get(
+        "/:id",
+        idValidator,
+        inputValidationResultMiddleware,
+        getPostHandler)
+    .post(
+        "",
+        superAdminMiddleware,
+        postCreateInputValidation,
+        inputValidationResultMiddleware,
+        createPostHandler)
+    .put(
+        "/:id",
+        superAdminMiddleware,
+        idValidator,
+        postUpdateInputValidation,
+        inputValidationResultMiddleware,
+        updatePostHandler)
+    .delete(
+        "/:id",
+        superAdminMiddleware,
+        idValidator,
+        inputValidationResultMiddleware,
+        deletePostHandler);

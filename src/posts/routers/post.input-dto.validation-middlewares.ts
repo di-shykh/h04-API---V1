@@ -36,10 +36,21 @@ const createdAtValidation = body('createdAt')
         strict: true,        // Строгая проверка
         strictSeparator: true // Требует 'T' как разделитель
     }).withMessage("createdAt should be DateTime in ISOString")
-export const postInputDtoValidation = [
+export const postCreateInputValidation = [
     titleValidation,
     shortDescriptionValidation,
     contentValidation,
     blogIdValidation,
-    // createdAtValidation,
+];
+export const postUpdateInputValidation = [
+    titleValidation,
+    shortDescriptionValidation,
+    contentValidation,
+    blogIdValidation,
+    createdAtValidation,
+];
+export const postCreateForBlogInputValidation = [
+    titleValidation,
+    shortDescriptionValidation,
+    contentValidation,
 ];

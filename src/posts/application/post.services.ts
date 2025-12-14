@@ -15,6 +15,7 @@ export const postsService = {
         return await postsRepository.findPostByIdOrFail(postId);
     },
     async findPostsByBlogId(blogId: string, queryDto?: PostQueryInput): Promise<{items: WithId<Post>[], totalCount: number}> {
+        await blogsRepository.findBlogByIdOrFail(blogId);
         return await postsRepository.findPostsByBlogId(blogId, queryDto);
     },
     async createPost(dto: PostAttributes): Promise<string> {
