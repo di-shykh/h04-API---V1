@@ -17,6 +17,7 @@ import {getBlogPostListHandler} from "./handlers/get-blog-post-list.handler";
 import {PostSortField} from "../../posts/routers/input/post-sort-field";
 import {postCreateForBlogInputValidation} from "../../posts/routers/post.input-dto.validation-middlewares";
 import {createBlogPostHandler} from "./handlers/create-blog-post.handler";
+import {blogExistingIdValidationMiddleware} from "./blog.existing-id-validation-middleware";
 
 export const blogsRouter: Router = Router({});
 
@@ -58,6 +59,7 @@ blogsRouter
     .get(
         "/:id/posts",
         idValidator,
+        blogExistingIdValidationMiddleware,
         paginationAndSortingValidation(PostSortField),
         inputValidationResultMiddleware,
         getBlogPostListHandler,
@@ -66,7 +68,8 @@ blogsRouter
         "/:id/posts",
         superAdminMiddleware,
         idValidator,
-        blogWithIdExistsValidation,
+        blogExistingIdValidationMiddleware,
         postCreateForBlogInputValidation,
+        inputValidationResultMiddleware,
         createBlogPostHandler
     )

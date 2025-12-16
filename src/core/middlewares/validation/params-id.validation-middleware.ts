@@ -1,5 +1,6 @@
 import {param, body} from "express-validator";
 import {blogsRepository} from "../../../blogs/repositories/blogs.repository";
+import {RepositoryNotFoundError} from "../../errors/repository-not-found.error";
 
 export const idValidator = param("id")
     .exists().withMessage('id is required')
@@ -19,11 +20,20 @@ export const blogWithIdExistsValidation = param("id")
     .exists().withMessage('Id is required')
     .custom(async (id: string, { req }): Promise<boolean> => {
         if(id) {
-            const blog = await blogsRepository.findBlogByIdOrFail(id);
-            if(!blog) {
-                throw new Error(`Blog with id ${id} not found`);
+            try{
+                const blog = await blogsRepository.findBlogByIdOrFail(id);
+                if(!blog) {
+                    console.log("error blogWithIdExistsValidation in if");
+                    throw new RepositoryNotFoundError(`Blog with id ${id} not found`);
+                }
+                return true;
             }
-            return true;
+            catch (error) {
+                console.log("error blogWithIdExistsValidation",error);
+                req.sendStatus(404);
+                throw error;
+            }
+
         }
         return false;
     })

@@ -44,6 +44,6 @@ export const blogUpdateInputValidation = [
     nameValidation,
     descriptionValidation,
     websiteUrlValidation,
-    createdAtValidation,//возможно не нужно
-    isMembershipValidation,//возможно не нужно
+    // createdAtValidation,
+    // isMembershipValidation,
 ];

@@ -25,5 +25,4 @@ export async function getPostListHandler(req: Request, res: Response) {
     }catch (e: unknown) {
         errorHandler(e, res);
     }
-
 }

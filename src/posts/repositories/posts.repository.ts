@@ -29,7 +29,7 @@ export const postsRepository = {
                 }
             });
         if (updatePostResult.matchedCount < 1) {
-            throw new Error("Post not found.");
+            throw new RepositoryNotFoundError("Post not found.");
         }
 
         return;
@@ -37,7 +37,7 @@ export const postsRepository = {
     async deletePost(id: string): Promise<void> {
         const deletePostResult = await postCollection.deleteOne({_id: new ObjectId(id)});
         if (deletePostResult.deletedCount < 1) {
-            throw new Error("Post not found.");
+            throw new RepositoryNotFoundError("Post not found.");
         }
         return;
     },
@@ -81,6 +81,7 @@ export const postsRepository = {
         const items: WithId<Post>[] = await postCollection
             .find(filter)
             .sort({[sortBy]: sortDirection})
+            .skip(skip)
             .limit(pageSize)
             .toArray();
         const totalCount = await postCollection.countDocuments(filter);
