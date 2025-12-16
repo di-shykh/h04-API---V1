@@ -16,11 +16,11 @@ export async function getPostListHandler(req: Request, res: Response) {
         });
         const queryInput = setDefaultSortAndPaginationIfNotExist(sanitizedQuery);
         const {items, totalCount} = await postsService.findManyPosts(queryInput);
-        const postsListOutput = mapToPostListPaginatedOutput(items, {
-            pageNumber: queryInput.pageNumber,
-            pageSize: queryInput.pageSize,
-            totalCount: totalCount,
-        })
+        const postsListOutput = mapToPostListPaginatedOutput(items,
+            queryInput.pageNumber,
+            queryInput.pageSize,
+            totalCount,
+        )
         res.status(HttpStatus.Ok).send(postsListOutput);
     }catch (e: unknown) {
         errorHandler(e, res);

@@ -20,11 +20,11 @@ export async function getBlogListHandler(
         //в req.query остаются сырые квери параметры (строки)
         const queryInput = setDefaultSortAndPaginationIfNotExist(sanitizedQuery);
         const {items, totalCount} = await blogsService.findMany(queryInput);
-        const blogsListOutput = mapToBlogListPaginatedOutput(items, {
-            pageNumber:queryInput.pageNumber,
-            pageSize:queryInput.pageSize,
+        const blogsListOutput = mapToBlogListPaginatedOutput(items,
+            queryInput.pageNumber,
+            queryInput.pageSize,
             totalCount,
-        })
+        )
         res.status(HttpStatus.Ok).send(blogsListOutput);
     } catch (error: unknown) {
        errorHandler(error, res);

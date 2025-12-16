@@ -47,7 +47,7 @@ export const postUpdateInputValidation = [
     shortDescriptionValidation,
     contentValidation,
     blogIdValidation,
-    createdAtValidation,
+    // createdAtValidation,
 ];
 export const postCreateForBlogInputValidation = [
     titleValidation,

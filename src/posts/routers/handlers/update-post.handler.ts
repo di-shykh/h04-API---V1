@@ -17,7 +17,7 @@ import {errorHandler} from "../../../core/errors/error.handler";
 export async function updatePostHandler(req: Request<{id: string}, {}, PostUpdateInput>, res: Response) {
     try{
         const id = req.params.id;
-        const updatedPost = await postsService.updatePost(id, req.body.data.attributes);
+        const updatedPost = await postsService.updatePost(id, req.body);
         res.sendStatus(HttpStatus.NoContent);
     } catch (e: unknown) {
         errorHandler(e, res);

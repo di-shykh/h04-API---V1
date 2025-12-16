@@ -26,17 +26,16 @@ describe("Blogs API", () => {
     afterAll(async () => {
         stopDb();
     })
-    it('should create blog; POST /hometask_03/api/blogs', async () => {
-        const newBlog: BlogInputDto = {
+    it('should create blog; POST /hometask_04/api/blogs', async () => {
+
+       await createBlog(app, {
             ...getBlogDto(),
             name: "Blog name New",
             description: "Blog description New",
-            websiteUrl: "https://www.blogsNew.com/",
-        }
-
-        await createBlog(app, newBlog);
+            websiteUrl: "https://www.blogsNew.com/"
+        });
     });
-    it('should return blogs list: GET /hometask_03/api/blogs', async () => {
+    it('should return blogs list: GET /hometask_04/api/blogs', async () => {
         await createBlog(app,{...getBlogDto(), name: "Blog name New2", description: "Blog description New2"} );
         await createBlog(app, {...getBlogDto(), name: "Blog name New3", description: "Blog description New3"});
 
@@ -47,8 +46,10 @@ describe("Blogs API", () => {
 
         expect(blogListResponse.body).toBeInstanceOf(Array);
         expect(blogListResponse.body.length).toBeGreaterThanOrEqual(2);
+        // console.log(blogListResponse);
     });
-    it('should return blog by id; GET /hometask_03/api/blogs/:id',async () => {
+
+    it('should return blog by id; GET /hometask_04/api/blogs/:id',async () => {
         const createRespose = await createBlog(app);
         const blog = await getBlogById(app, createRespose.id);
 
@@ -58,7 +59,7 @@ describe("Blogs API", () => {
             createdAt: expect.any(String),
         });
     });
-    it('should update blog; PUT /hometask_03/api/blogs/:id',async () => {
+    it('should update blog; PUT /hometask_04/api/blogs/:id',async () => {
         const createRespose = await createBlog(app, {...getBlogDto(),name: "Another Blog", description: "Another Blog description"})
 
         const blogUpdateData: BlogInputDto = {

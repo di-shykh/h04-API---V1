@@ -3,12 +3,12 @@ import { Express } from 'express';
 import { HttpStatus } from '../../../src/core/types/http-statuses';
 import {POSTS_PATH} from '../../../src/core/paths/paths';
 import { generateBasicAuthToken } from '../generate-admin-auth-token';
-import { PostViewModel } from '../../../src/posts/types/post-view-model';
+import {PostOutput} from "../../../src/posts/routers/output/post-output";
 
 export async function getPostById(
     app: Express,
     postId: string,
-): Promise<PostViewModel> {
+): Promise<PostOutput> {
     const postResponse = await request(app)
         .get(`${POSTS_PATH}/${postId}`)
         .set('Authorization', generateBasicAuthToken())

@@ -1,6 +1,4 @@
 import {body} from "express-validator";
-import {resourceTypeValidation} from "../../core/middlewares/validation/resource-type.validation";
-import {ResourceType} from "../../core/types/resource-type";
 
 const URL_PATTERN = /^https:\/\/([a-zA-Z0-9_-]+\.)+[a-zA-Z0-9_-]+(\/[a-zA-Z0-9_-]+)*\/?$/;
 
@@ -38,13 +36,11 @@ const isMembershipValidation = body("isMembership")
     .isBoolean().withMessage("isMembership should be boolean");
 
 export const blogCreateInputValidation = [
-    resourceTypeValidation(ResourceType.Blogs),
     nameValidation,
     descriptionValidation,
     websiteUrlValidation,
 ];
 export const blogUpdateInputValidation = [
-    resourceTypeValidation(ResourceType.Blogs),
     nameValidation,
     descriptionValidation,
     websiteUrlValidation,

@@ -1,10 +1,6 @@
-import {ResourceType} from "../../../core/types/resource-type";
-import {BlogAttributes} from "../../application/dtos/blog-attributes";
-
 export type BlogUpdateInput = {
-    data: {
-        type: ResourceType.Blogs;
-        id: string;
-        attributes: BlogAttributes;
-    }
+    id: string;
+    name: string;	//maxLength: 15
+    description: string;//maxLength: 500
+    websiteUrl: string; //maxLength: 100  pattern: ^https://([a-zA-Z0-9_-]+\.)+[a-zA-Z0-9_-]+(\/[a-zA-Z0-9_-]+)*\/?$
 }

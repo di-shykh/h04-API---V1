@@ -6,19 +6,13 @@ import {BLOGS_PATH} from "../../../src/core/paths/paths";
 import {BlogAttributes} from "../../../src/blogs/application/dtos/blog-attributes";
 import {BlogOutput} from "../../../src/blogs/routers/output/blog.output";
 import {BlogCreateInput} from "../../../src/blogs/routers/input/blog-create.input";
-import {ResourceType} from "../../../src/core/types/resource-type";
 import {getBlogDto} from "./get-blog-dto";
 
 export async function createBlog(app: Express, blogDto?: BlogAttributes): Promise<BlogOutput> {
 
     const testBlogData: BlogCreateInput = {
-        data: {
-            type: ResourceType.Blogs,
-            attributes: {
-                ...getBlogDto(),
-                ...blogDto
-            },
-        },
+        ...getBlogDto(),
+        ...blogDto
     };
     const createBlogResponse = await request(app)
         .post(BLOGS_PATH)

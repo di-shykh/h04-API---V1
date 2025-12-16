@@ -12,7 +12,7 @@ export async function createBlogHandler(
     res: Response
 ) {
     try{
-        const createdBlogId = await blogsService.create(req.body.data.attributes);
+        const createdBlogId = await blogsService.create(req.body);
         const createdBlog = await blogsService.findBlogByIdOrFail(createdBlogId);
         const blogOutput = mapToBlogOutput(createdBlog);
         res.status(HttpStatus.Created).send(blogOutput);

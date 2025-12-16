@@ -14,11 +14,11 @@ export async function getBlogPostListHandler(
         const queryInput = req.query as unknown as unknown as PostQueryInput;
 
         const { items, totalCount } = await postsService.findPostsByBlogId(blogId, queryInput);
-        const postListOutput = mapToPostListPaginatedOutput(items, {
-            pageNumber: queryInput.pageNumber,
-            pageSize: queryInput.pageSize,
+        const postListOutput = mapToPostListPaginatedOutput(items,
+            queryInput.pageNumber,
+            queryInput.pageSize,
             totalCount,
-        });
+        );
         res.status(HttpStatus.Ok).send(postListOutput);
     }
     catch (e: unknown) {

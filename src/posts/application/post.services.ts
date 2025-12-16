@@ -40,12 +40,3 @@ export const postsService = {
         await postsRepository.deletePost(id);
     }
 }
-// export type Post = {
-//     title: string;
-//     shortDescription: string;
-//     content: string;
-//     blogId: string;
-//     blogName: string;
-//
-//     createdAt: string;
-// }

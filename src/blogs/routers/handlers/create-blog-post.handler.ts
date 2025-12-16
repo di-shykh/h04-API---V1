@@ -10,11 +10,11 @@ export async function createBlogPostHandler(req: Request<{id: string}, PostCreat
     try{
         const blogId = req.params.id;
         const blog = await blogsService.findBlogByIdOrFail(blogId);
-        const postData = req.body.data.attributes;
+        const postData = req.body;
         const createdPostId = await postsService.createPost({
             title: postData.title,
             shortDescription: postData.shortDescription,
-            content: postData.data.content,
+            content: postData.content,
             blogId});
         const createdPost = await postsService.findPostByIdOrFail(createdPostId);
         const postOutput = mapToPostOutput(createdPost);

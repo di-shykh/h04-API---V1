@@ -7,7 +7,7 @@ import {errorHandler} from "../../../core/errors/error.handler";
 
 export async function createPostHandler(req: Request<{},{},PostCreateInput>, res: Response) {
    try{
-      const createdPost = await postsService.createPost(req.body.data.attributes);
+      const createdPost = await postsService.createPost(req.body);
       const insertedPost = await postsService.findPostByIdOrFail(createdPost);
       const postOutput = mapToPostOutput(insertedPost);
       res.status(HttpStatus.Created).send(postOutput);

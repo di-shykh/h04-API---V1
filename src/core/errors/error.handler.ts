@@ -30,6 +30,6 @@ export function errorHandler(error: unknown, res: Response): void {
         );
         return;
     }
-    res.status(HttpStatus.InternalServerError);
+    res.sendStatus(HttpStatus.InternalServerError);
     return;
 }
