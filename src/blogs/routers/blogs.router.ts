@@ -4,10 +4,7 @@ import {getBlogListHandler} from "./handlers/get-blog-list.handler";
 import {createBlogHandler} from "./handlers/create-blog.handler";
 import {updateBlogHandler} from "./handlers/update-blog.handler";
 import {deleteBlogHandler} from "./handlers/delete-blog.handler";
-import {
-    blogWithIdExistsValidation,
-    idValidator
-} from "../../core/middlewares/validation/params-id.validation-middleware";
+import {idValidator} from "../../core/middlewares/validation/params-id.validation-middleware";
 import {inputValidationResultMiddleware} from "../../core/middlewares/validation/input-validation.result.middleware";
 import {blogCreateInputValidation, blogUpdateInputValidation} from "./blog.input-dto.validation-middleware";
 import {superAdminMiddleware} from "../../auth/middlewares/super-admin.guard-middleware";

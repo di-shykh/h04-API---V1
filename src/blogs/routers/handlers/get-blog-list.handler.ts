@@ -19,9 +19,6 @@ export async function getBlogListHandler(
         });//утилита для извечения трансформированных значений после валидатара
         //в req.query остаются сырые квери параметры (строки)
         const queryInput = setDefaultSortAndPaginationIfNotExist({...query, ...sanitizedQuery});
-        console.log("query", query);
-        console.log("queryInput", queryInput);
-        console.log("sanitizedQuery", sanitizedQuery);
         const {items, totalCount} = await blogsService.findMany(queryInput);
         const blogsListOutput = mapToBlogListPaginatedOutput(items,
             queryInput.pageNumber,

@@ -44,6 +44,4 @@ export const blogUpdateInputValidation = [
     nameValidation,
     descriptionValidation,
     websiteUrlValidation,
-    // createdAtValidation,
-    // isMembershipValidation,
 ];

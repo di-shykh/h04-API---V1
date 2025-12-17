@@ -8,14 +8,6 @@ export const idValidator = param("id")
     .isLength({ min: 1 }).withMessage('id must be not empty')
     .isMongoId().withMessage('Incorrect format of ObjectId')
 
-export const dataIdMatchValidation = body("dataId")
-    .exists().withMessage('Id in body is required')
-    .custom((value, { req }) => {
-        if (value !== req?.params?.id) {
-            throw new Error('Id in URL and body must match');
-        }
-        return true;
-    })
 export const blogWithIdExistsValidation = param("id")
     .exists().withMessage('Id is required')
     .custom(async (id: string, { req }): Promise<boolean> => {

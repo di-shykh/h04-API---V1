@@ -21,7 +21,6 @@ const blogIdValidation = body("blogId")
     .exists().withMessage("blogId is required")
     .isString().withMessage("blogId should be string")
     .trim()
-    // .isNumeric().withMessage("blogId should be numeric")
     .custom(async (id: string): Promise<boolean> => {
         const blog = await blogsRepository.findBlogById(id);
         if (!blog) {
@@ -47,7 +46,6 @@ export const postUpdateInputValidation = [
     shortDescriptionValidation,
     contentValidation,
     blogIdValidation,
-    // createdAtValidation,
 ];
 export const postCreateForBlogInputValidation = [
     titleValidation,
