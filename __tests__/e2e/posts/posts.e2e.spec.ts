@@ -49,8 +49,8 @@ describe("Posts API", () => {
             .set('Authorization', adminToken)
             .expect(HttpStatus.Ok);
 
-        expect(postListResponse.body).toBeInstanceOf(Array);
-        expect(postListResponse.body.length).toBeGreaterThanOrEqual(2);
+        expect(postListResponse.body.items).toBeInstanceOf(Array);
+        expect(postListResponse.body.items.length).toBeGreaterThanOrEqual(2);
     });
     it('should return post by id; GET /hometask_03/api/posts/:id',async () => {
         const createdPost = await createPost(app);

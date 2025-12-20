@@ -11,6 +11,7 @@ import { createBlog } from '../../utils/blogs/create-blog';
 import { getBlogById } from '../../utils/blogs/get-blog-by-id';
 import { runDB, stopDb } from '../../../src/db/mongo.bd';
 import {SETTINGS} from "../../../src/core/settings/settings";
+import {createBlogPost} from "../../utils/blogs/create-blog-post";
 
 describe ('Blog API body validation check',() => {
     const app = express();
@@ -71,7 +72,7 @@ describe ('Blog API body validation check',() => {
         const blogResponse = await request(app)
             .get(BLOGS_PATH)
             .set('Authorization', adminToken);
-        expect(blogResponse.body).toHaveLength(0);
+        expect(blogResponse.body.items).toHaveLength(0);
     });
     it('should not update blog when incorrect data passed; PUT /api/blogs', async () => {
         const createdBlog = await createBlog(app);
@@ -119,4 +120,29 @@ describe ('Blog API body validation check',() => {
             ...createdBlog
         });
     });
+    it('should not create post for blog with wrong blogId', async () => {
+        const wrongBlogId: string = 'randomString';
+        try{
+            await createBlogPost(app, wrongBlogId, {
+                title: 'Blog_Post Title3',
+                shortDescription: 'description blog_post3',
+                content: 'constent blog_post3',
+                blogId: wrongBlogId,
+            });
+            fail('Post should not be created for wrong blogId');
+        } catch (error) {
+            expect(error).toBeDefined();
+        }
+
+
+        //check that nothing were created
+        const postResponse = await request(app)
+            .get(`${BLOGS_PATH}/${wrongBlogId}/posts`)
+            .set('Authorization', adminToken);
+        if(postResponse.status === HttpStatus.NotFound) {
+            expect(postResponse.status).toBe(HttpStatus.NotFound);
+        } else if (postResponse.status === HttpStatus.BadRequest) {
+            expect(postResponse.status).toBe(HttpStatus.BadRequest);
+        }
+    })
 })

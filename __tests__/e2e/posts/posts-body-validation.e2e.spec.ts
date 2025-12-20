@@ -72,7 +72,7 @@ describe ('Post API body validation check',() => {
         const postResponse = await request(app)
             .get(POSTS_PATH)
             .set('Authorization', adminToken);
-        expect(postResponse.body).toHaveLength(0);
+        expect(postResponse.body.items).toHaveLength(0);
     });
     it('should not update post when incorrect data passed; PUT /api/posts', async () => {
         const createdPost = await createPost(app);

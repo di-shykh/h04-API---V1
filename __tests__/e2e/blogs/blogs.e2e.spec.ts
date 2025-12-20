@@ -13,6 +13,11 @@ import {createBlog} from "../../utils/blogs/create-blog";
 import {getBlogById} from "../../utils/blogs/get-blog-by-id";
 import {updateBlog} from "../../utils/blogs/update-blog";
 import {after} from "node:test";
+import {BlogUpdateInput} from "../../../src/blogs/routers/input/blog-update.input";
+import {BlogAttributes} from "../../../src/blogs/application/dtos/blog-attributes";
+import {PostOutput} from "../../../src/posts/routers/output/post-output";
+import {createBlogPost} from "../../utils/blogs/create-blog-post";
+import {getBlogPosts} from "../../utils/blogs/get-blog-post";
 
 
 describe("Blogs API", () => {
@@ -44,15 +49,14 @@ describe("Blogs API", () => {
             .set('Authorization', adminToken)
             .expect(HttpStatus.Ok);
 
-        expect(blogListResponse.body).toBeInstanceOf(Array);
-        expect(blogListResponse.body.length).toBeGreaterThanOrEqual(2);
-        // console.log(blogListResponse);
+        expect(blogListResponse.body.items).toBeInstanceOf(Array);
+        expect(blogListResponse.body.items.length).toBeGreaterThanOrEqual(2);
+
     });
 
     it('should return blog by id; GET /hometask_04/api/blogs/:id',async () => {
         const createRespose = await createBlog(app);
         const blog = await getBlogById(app, createRespose.id);
-
         expect(blog).toEqual({
             ...createRespose,
             id: expect.any(String),
@@ -62,7 +66,7 @@ describe("Blogs API", () => {
     it('should update blog; PUT /hometask_04/api/blogs/:id',async () => {
         const createRespose = await createBlog(app, {...getBlogDto(),name: "Another Blog", description: "Another Blog description"})
 
-        const blogUpdateData: BlogInputDto = {
+        const blogUpdateData: BlogAttributes = {
             name: "Updated name",
             description: "Updated description",
             websiteUrl: "https://www.updateblogs.com/",
@@ -77,7 +81,7 @@ describe("Blogs API", () => {
             isMembership: expect.any(Boolean),
         });
     });
-    it('DELETE /hometask_03/api/blogs/:id and check after NOT FOUND',async () => {
+    it('DELETE /hometask_04/api/blogs/:id and check after NOT FOUND',async () => {
           const createdBlog = await createBlog(app);
 
           await request(app)
@@ -90,4 +94,42 @@ describe("Blogs API", () => {
             .set('Authorization', adminToken);
             expect(HttpStatus.NotFound);
     });
+    it('POST /hometask_04/api/blogs/{blogId}/posts', async () => {
+        const createRespose = await createBlog(app);
+        const blog = await getBlogById(app, createRespose.id);
+        const createdPost: PostOutput = await createBlogPost(app, blog.id, {
+           title: 'Blog_Post Title',
+           shortDescription: 'description blog_post',
+           content: 'constent blog_post',
+            blogId: blog.id,
+        });
+    })
+    it('GET /hometask_04/api/blogs/{blogId}/posts', async () => {
+        const createRespose = await createBlog(app);
+        const blog = await getBlogById(app, createRespose.id);
+        await Promise.all([
+                createBlogPost(app, blog.id, {
+                title: 'Blog_Post Title',
+                shortDescription: 'description blog_post',
+                content: 'constent blog_post',
+                blogId: blog.id,
+            }),
+            createBlogPost(app, blog.id, {
+                title: 'Blog_Post Title2',
+                shortDescription: 'description blog_post2',
+                content: 'constent blog_post2',
+                blogId: blog.id,
+            }),
+            createBlogPost(app, blog.id, {
+                title: 'Blog_Post Title3',
+                shortDescription: 'description blog_post3',
+                content: 'constent blog_post3',
+                blogId: blog.id,
+            }),
+        ]);
+        const posts = await getBlogPosts(app, blog.id);
+
+        expect(posts.items.length).toBeGreaterThanOrEqual(3);
+        expect(posts.items).toBeInstanceOf(Array);
+    })
 })
